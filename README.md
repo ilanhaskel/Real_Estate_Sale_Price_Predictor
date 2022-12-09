@@ -1,101 +1,201 @@
 ![jonheaderdesign](./images/jheader.png)
 
-# Microsoft Movie Analysis
+# King County Real Estate Modeling
 
-**Authors**: [Jonathan Fetterolf](mailto:jonathan.fetterolf@gmail.com), [Matthew Duncan](mailto:mduncan0923@gmail.com), [Nate Kist](mailto:natekist@outlook.com), & [Roshni Janakiraman](mailto:roshnij618@gmail.com)
+**Authors**: [Jonathan Fetterolf](mailto:jonathan.fetterolf@gmail.com), [Ilan Haskel NEED EMAIL](mailto:XXXXXXXXXXXXXX), [Nate Kist](mailto:natekist@outlook.com)
 
 ## Overview
 
-We analyzed multiple film databases to determine what factors make a movie successful. Descriptive analyses of movie characteristics and box office data show that Animation is the most profitable movie genre, high budget films provide the strongest return on investment (ROI), and the highest-rated films tend to be 85 - 100 minutes long.
+We analyzed a database of home sales in King County, WA to determine how different housing features impact sales price.  Regression analysis of these sales show potential opportunities for real estate flipping companies to earn more profit by buying in certain areas and adding features to a home that ultimately drive up the resale price more than the cost of the addition.  The analysis determined that buying properties in Skykomish, Algona, Federal Way, Enumclaw, and Auburn would likely result in more return on their investment and that adding a garage for under $38K or adding a patio for under $18K would likely result in higher profit. 
 
 ![action](./images/director_shot.jpeg)
 
-## Business Problem
+## Business Understanding and Business Problem
 
-Microsoft may be able to improve their likelihood of producing box office successes by investing in films with similar characteristics to recent successful releases. The following questions guided our analyses:
- 1. What genre of movie is most profitable?
- 2. What type of budget should be allocated for production?
- 3. What is the ideal movie length?
+Our primary stakeholder is a company called Flipping Seattle, which flips houses in the King County area.  We are analyzing home sales to advise Flipping Seattle on:
 
-## Data
+ 1. What geographic areas should they look in to generate the most return on investment? 
+ 2. What renovations or additions can be made to their properties to generate more profit upon sale?
 
-Data for this analysis is from three online movie databases.
+## Data Understanding
 
-### 1. The MovieDB (TMDB)
+Data for this analysis is from the following database:
 
-[TMDB](https://www.themoviedb.org/?language=en-US) is a user-built database of movie information and user ratings. The current dataset includes 26,517 datapoints and 9 columns of data. The target data includes release date and genre, where the genre codes are ordered by relevance.
+### King County Real Property Sales
 
-### 2. The Numbers (TN)
+The [King County Department of Assessments](https://info.kingcounty.gov/assessor/DataDownload/default.aspx) makes available on its website a dataset representing recent home sales in the county. The initial dataset includes 30,155 home sale records representing sales between 6/10/21 and 6/9/22.  It had 25 columns of data. The column of primary interest is price, as that will be our target in our model.  Other data of interest includes characteristics of the homes sold such as square footage, condition, and the existence of features such as a basement, patio or garage.
 
-[TN](url) dataset consists of box office information across 5,782 movies. The target data includes release date, production budget and worldwide gross revenue.
+## Methods 
 
-### 3. Internet Movie Database (IMDB)
+This project uses linear regression analysis to determine how our stakeholder can generate the most profit.  
 
-[IMDb](url) is an online database consisting of movie information, statistics, and user ratings. The IMDB dataset is comprised of multiple tables. For the current analysis, we used two tables consisting of basic movie data and user ratings for movies. The target data includes release date, runtime length (in minutes), and average rating.
+### Data Preparation and Modeling
 
-## Methods
+We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and filtered out records with null values.  We also scaled our numberical predictors.  After dropping outliers and records with null values, we had 27,732 home sale records remaining from an intial dataset with 30,155 records (less than 10% dropped).  
+We created helpful functions that could be reused throughout our code in order to avoid duplication of code, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
 
-This project uses descriptive analytics to describe trends in the features of successful movies. 
+We utilized the CRISP-DM process for our modeling.  Our workflow ended up consisting of two rounds of modeling.  
 
-For all tables, we removed unnecessary columns, cleaned, and filtered all of the tables used. To make sure that the data we used was relevant to Microsoft's business question, we limited the data to only include movies released between 2010 - 2019 and English movies. All numerical columns were scaled to be in millions (MM). 
+**Round one** 
 
-**Question 1**: We merged TN with TMDB to address Question #1. TMDB uses 18 primary genres to classify the movies in their database. We used a bar chart to examine the average net profit of each genre of movie, and limited our findings to the top 10 most profitable genres.
+We started our modeling by performing exploratory analysis with visualizations on potential features to utilize and performing some feature engineering.  Features engineered in round one included 'zipcode' (extracted from address) and 'age_when_sold' ('date' less 'yr_built').  
 
-**Question 2**: Using the TN dataset, we calculated two new variables of interest: Net Profit and Return on Investment (ROI). The main analysis used a bar chart to compare the median ROI of films based on production budget. Based on definitions used by [Hollywood market researchers](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3751648), we grouped our data into 3 budget categories:
-1. Low (less than $20 MM)
-2. Medium ($20 MM - $100 MM)
-3. High (greater than $100 MM)
+*Baseline*
 
-We then compared the median ROI of each budget groups to determine which budget group provided the best value for its cost. We used the median ROI because there are extreme outliers in each budget group that might misrepresent how a 'typical' movie would fare.
+Our baseline has price as the target and 'sqft_living', 'sqft_lot', and 'sqft_patio' as predictors.  We recieved an r-squared of .303.  We then plotted the target (price) to view its distribution and we noticed it was slightly right-skewed.  We tried log-scaling price.  We noticed it was even more skewed (now on the left).  When we created a model with the log-scaled price as the target, the r-squared was worse.  As such, we did not use the log-scaled price in any of the rest of our analysis. 
 
-**Question 3**: To address Question #3, we used the IMDB dataset. We decided to focus on the 'typical' runtime of highly rated films. We narrowed down the dataset to include only the highest rated movies (average user rating of 8.0 or greater) on IMDB. 
+*Adding numerical predictors*
 
-## Results
+From there, we started trying different combinations of numerical predictors such as square foot lot, square foot patio, and age when sold.  Our r-squared slightly improved (.312) but was still not where we wanted it.  Also, our other summary statistics were getting worse (e.g. Jarque-Bera and condition number).  
 
-### Question 1: What genre of movie is most profitable? ###
-* Over the 2010s, the **Animation** genre had the highest average yearly profit. ($313 MM per year)
-* **Family** films, a related genre, was the second-highest profitable genre of the 2010s ($292 MM per year).
+*Adding ordinal categorical predictors*
 
-![averageprofitbygenre](./images/figure1.png)
+We moved forward with additional nomimal categorical features to see if that would help our model.  We used One Hot Encoder to try differet combinations of categorical features including bathrooms, bedrooms, condition, and heat_source.  
 
-### Question 2: 
-* High budget films provide the strongest ROI, with the typical high-budget film yielding a 200% ROI
+This new model had a slightly higher R-squared score than our previous iteration, but we see the condition number jump up two orders of magnitude, suggesting stronger problems with multicollinearity.  We continue adding features to our model, with the hopes of improving our R-squared score. We decide to incorporate more categorical variables, such as amount of floors, proximity to a waterfront, zipcode, and grade. Before applying them to our model, we first have to one-hot encode these as well. 
 
-![budgetROI](./images/figure2.png)
+It is at this point that we see our R-squared score make a huge jump: our model goes from accounting for only 30% of the variance in our target, to just under 70%. We can conclude that the addition of our new categorical variables is responsible for this improvement.
 
-### Question 3: 
-* Out of all of the highest rated movies (ratings > 8.0), there were more movies in the 85 - 100 minute range than any other movie length.  
-* This would indicate a viewer preference for movies with this length.
+*Adding ordinal categorical predictors*
 
-![highratedmovieruntimes](./images/figure3.png)
+It is at this point that we realize that grade, one of the categorical variables incorporated in our current model, should not have been one-hot encoded. Instead, as an ordinal categorical variable, we need to use ordinal encoding to maintain the natural rank order in grade values.  Similarly, condition is a categorical feature being used in our model that should have been ordinally encoded as well. We proceed with re-encoding condition.
 
-## Conclusions
+*Drop statistically insignificant values and run new model*
 
-This analysis leads to three recommendations for Microsoft's entry in the film industry:
+Analyzing the p-values corresponding with our model predictors, we notice that some of them are above an alpha of 0.05, suggesting that the perceived relationships these features have with our target are not statistically significant. We proceed by dropping these specific predictors from our model and recreating it.
 
-1. **Produce movies within the Animation and Family genres to maximize net profit** 
-    - Animation and Family movies have had the highest average yearly net profits over the 2010s.
-2. **Invest in high-budget films** 
-    - High-budget films have the greatest potential for maximum returns
-    - Microsoft should plan to invest at least **$200 MM** per film
-3. **Make movies with a runtime length near 90 minutes**
-    - Out of all highly rated movies, there were more movies in the 90-100 minute range than any other movie length. This indicates a viewer preference for movies with this length.
+Ultimately, we find that dropping our insignificant features did not affect model performance very much, nor did it improve our summary statistics pertaining to assumption problems.
 
-### Future Considerations
+*Modeling result*
 
-Further analyses could yield additional insights to improve recommendations for Microsoft's studio debut:
+Our current model's condition number at this point was well above the generally accepted 'danger zone' of approximately 1000. We can gather from this that our predictors have a significant amount of correlation with one another, implying the presence of multicollinearity. Likely, this has to do with the large number of predictors used in our model. A logical improvement given more time is to try and cut down the number of predictor variables used and optimizing our model's R-squared score with its condition number.
 
-##### Recency of Data: Considering the Effect of COVID-19: #####
-- Our data ends in the year 2019. By including updated data, we could provide a more accurate representation of the film industry, especially given that cinema attendance experienced [a drastic fall](https://www.whartonume.com/blog/covids-impact-on-the-film-industry-the-biggest-shift-in-the-history-of-hollywood), but is now [trending towards recovery](https://www.placer.ai/blog/movie-theaters-summer-2022-update-recovery-and-consumer-trends/).
+**Round two**
+With this prior model for reference, we decided to start over with a new baseline model and create some additional features to use.
 
-- Additionally, it could be useful to examine what types of movies did well *in spite* of the pandemic: even with the barriers of COVID, what factors were compelling enough to draw people to theaters?
+New features created in round two included:  'sqft_lot_less_living' ('sqft_lot' less ('sqft_living' / 'floors'), 'has_garage', 'has_patio', 'has_basement', 'has_view', and 'city'.  These features were derived from the values of other features.  For example, if 'square foot garage' was not zero, we concluded that a property had a garage. If it was zero, we concluded it did not have a garage.  We did the same for patio and basement.  If 'view' was not 'NONE', we concluded that the property had a view.  If it was NONE, we concluded it did not.  We extracted city from the address column.   
 
-##### Additional Variables to Consider in Current Analyses #####
-- Question 1: The number of movies in each genre is not taken into consideration. If there are a limited number of movies for a particular genre, the sample could be skewed high or low.
+We paid particular attention to our summary statistics as we went along in round two to make sure we weren't hurting the model as we added features.   
 
-- Question 2: While we can show that high-budget films generally earn more profit, we do not know if people actually enjoyed the movies that were produced with a high budget.
+*Adding numerical predictors*
 
-- Question 3: The runtime length for movies below an average rating of 8.0 are not taken into consideration. We cannot draw specific conclusions that a 90 minute movie will help contribute to a higher rating, rather we can conclude that most higher rated films are within this runtime.
+We added 'sqft_lot_less_living' to our former numerical predictors 'sqft_living' and 'age_when_sold'.  This helped our summary statistics a little, but the R-squared was still only .309.  
+
+*Adding numerical categorical predictors*
+
+Next, we took a different approach than the prior round on trying to use location data.  Zipcode was the feature that helped our R-squared the most in the prior round, but it hurt our summary statistics.  We wanted to see if different location data would be better.  We created a new feature for 'city' that we derived from the 'address' feature and we added that to the model.  
+
+This worked out very well. It bumped up our R-Squared from .309 to .607, while keeping out JB score at 6,617 and our condition no. at 199.
+
+We then layered in 'waterfront', 'has_basement', 'has_garage', and 'has_patio'. We saw slight improvements of R-squared to .613, with minimal changes to summary statistics. So far, we have vastly improved our summary statistics from round one while achieving a similar R-Squared.   
+
+*Adding ordinal categorical predictors*
+
+We then tried adding our first ordinal variable 'grade'.  This improved our R-Squared but hurt our JB score.  We concluded that we would not use this variable. 
+
+We then tried the second ordinal variable 'condition'.  This helped our R-squared number, but it hurt our condition no.  We also decided not to use 'condition'.  
+
+*Adding more categorical variables*
+
+We then used the remaining unused nominal categorical variables, adding 'greenbelt', 'nuisace', and 'has_view'.  This looked like the best result we had seen.  Our R-squared is the highest it's been throughout our new round of models while keeping a condition number well under 1000.
+
+
+## Evaluation / Results
+
+### Evaluation - Checking Model Assumptions
+
+#### Linearity
+
+(pic)
+
+From our plot, we can gather that the relationship between our target and our predictors is linear.
+
+#### Independence
+
+(pic)
+
+The upwards trend in this plot suggests a very slight positive correlation in our errors.  
+We can confirm by looking at the Durbin-Watson test statistic from our model.
+
+durbin_watson:  1.9885919167316604
+
+This confirms the qualitative conclusion we drew from our scatter plot.
+Since the test statistic is below 2.0, we know there to be a very slight positive correlation in our errors.
+However, since our test statistic is so close to 2.0, we can confidently say that autocorrelation is not a problem for our regression model.
+
+#### Normality
+
+(pic)
+
+Upon first glance at our histogram of residuals, our errors appear to be normally distributed.
+
+With normally distributed errors, our plot should follow the diagonal line closely.  
+Instead, we see some fairly significant divergences at the extremes. This suggests that our errors may not follow a normal distribution. That said, it is worth noting that divergences from the diagonal line are less extreme than the last time we tested our assumptions in our previous model.
+
+Jarque_beraResult:  7039.654966167089, pvalue=0.0
+
+Based on the large magnitude of our test statistic and a P-value smaller than an alpha of 0.05, we must still reject the null hypothesis that our errors are normally distributed.
+
+Given more time, we may have to make individual histograms for each of our many variables to see their distribution, and possibly transform them in some way or use polynomial features. Unfortunately, this is outside the scope of our current project due to time constraints, and will need further investigation to address our issues with normality of errors.
+
+#### Homoscedasticity
+
+(pic)
+
+At first glance, our errors appear to have similar variances. This is to say, the spread of our errors does not appear to vary much as our target increases. If anything, the spread may constrain slightly as our target increases, denoted by the larger presence of outliers around the smallest values of our target.
+
+For a more quantitative assessment of homoscedasticity, we employ the Goldfeld-Quant test.  
+Result:  (0.9874786620366286, 0.7351101602688859, 'increasing')
+The Goldfeld-Quant test has a null hypothesis that homoscedasticity is present in our errors. Since the p-value for our test is greater than an alpha of 0.05, we fail to reject the null hypothesis and cannot gather that heteroscedasticity is a problem with our model.
+
+Turning to the Breusch-Pagan test for a second opinion on whether our data is homoscedastic:
+Result:  
+         Lagrange multiplier statistic', 2279.3581669918062
+         p-value', 0.0
+         f-value', 54.12149284620623
+         f p-value', 0.0
+
+Since our p-value is smaller than our alpha of 0.05 and our test statistic is quite high for our number of predictors, we must reject the null hypothesis and conclude that there is some evidence to suggest that our errors are heteroscedastic. 
+
+A possible solution would be to try transforming our target variable in some other way to make it more closely follow a normal distribution. Due to time constraints, this will not be possible in the present study.
+
+#### Independence of Predictors (No Multicollinearity)
+
+Condition_number: 269.39234338796416
+
+Here we see a significant improvement over the previous iteration of our model, starting from the old baseline. Our current model's condition number is well below the generally-accepted 'danger zone' of 1000, suggesting that we eliminated any issues with multicollinearity in our model and that our predictors are sufficiently independent from one another.
+
+### Answering Business Question / Results
+
+Our initial goal was to tease out the features in our dataset that have the highest bearing on price, so as to provide our house-flipping clients information on how to turn the most profit.
+
+**Cheapest Cities**
+
+Upon analysis of our predictor coefficients, we found that city where a house is located has a significant bearing on the price a house will sell for. Knowing that our clients will want to buy cheap in order to minimize property taxes before selling, we were able to ascertain which 5 cities had the highest impact on keeping house price low. In terms of our model, we found the 5 cities with the smallest relative coefficients, meaning that they increased price the *least*. 
+
+Try to buy in the following cities for lowest cost:
+1. Skyomish
+2. Algona
+3. Federal Way
+4. Enumclaw
+5. Auburn
+
+(pic)
+
+From our bar graph, we can see that all 5 of these cities have an average house price around or significantly under 600,000 dollars. Comparing this to the mean house price for all cities of over 900,000 dollars, we can see how much cheaper buying a house in any one of these cities would be relative to the mean.
+
+Taking another look at our model summary, we decide to look at the coefficients for our features we think would be easiest for a homeowner to add or adjust. Since garage and patio are both external structures that would be relatively easy for a homeowner to incorporate to their property, we take a look to see if their addition would significantly affect price according to our model. Below are our findings:
+
+**Garage**
+
+According to our model, we are 95% confident that adding a garage will increase value by between 38,000 dollars and 54,000 dollars so to have the highest likelihood of turning a profit, if you can add a garage for under 38,000 dollars, then we believe you should. 
+
+**Patio (x4)**
+
+According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
+
+
+
  
 
 ## For More Information
@@ -104,13 +204,12 @@ See the full analysis in the [Jupyter Notebook](./Movie_industry_analysis_notebo
 
 **For additional info, contact:**
 - Jonathan Fetterolf: jonathan.fetterolf@gmail.com
-- Matthew Duncan: mduncan0923@gmail.com
+- Ilan Haskel: XXXXXXXXXXX
 - Nate Kist: natekist@outlook.com
-- Roshni Janakiraman: roshnij618@gmail.com
 
 ![cinema](./images/cinema.jpg)
 
-## Repository Structure
+## Repository Structure     UPDATE BELOW FOR FINAL GIT FILES !!!!!!!!!!!!
 
 ```
 ├── Scratch_Notebooks
