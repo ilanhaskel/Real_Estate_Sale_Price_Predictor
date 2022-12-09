@@ -38,7 +38,7 @@ We utilized the CRISP-DM process for our project, which reprsents an iterative a
 
 We started our modeling by performing exploratory analysis with visualizations on potential features to utilize and performing some feature engineering.  Features engineered in round one included 'zipcode' (extracted from address) and 'age_when_sold' ('date' less 'yr_built').  
 
-#### Baseline
+#### Baseline model
 
 Our baseline has price as the target and 'sqft_living', 'sqft_lot', and 'sqft_patio' as predictors.  We recieved an r-squared of .303.  We then plotted the target (price) to view its distribution and we noticed it was slightly right-skewed.  We tried log-scaling price.  We noticed it was even more skewed (now on the left).  When we created a model with the log-scaled price as the target, the r-squared was worse.  As such, we did not use the log-scaled price in the rest of our analysis. 
 
