@@ -113,7 +113,7 @@ From our plot, we can gather that the relationship between our target and our pr
 
 #### Independence
 
-![i](./images/eval0.png)
+![i](./images/eval02.png)
 
 The upwards trend in this plot suggests a very slight positive correlation in our errors.  
 We can confirm by looking at the Durbin-Watson test statistic from our model.
