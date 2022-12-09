@@ -107,13 +107,13 @@ We then used the remaining unused nominal categorical variables, adding 'greenbe
 
 #### Linearity
 
-![l](./images/eval01Lin.png)
+![l](./images/eval01.png)
 
 From our plot, we can gather that the relationship between our target and our predictors is linear.
 
 #### Independence
 
-![i](./images/eval02ind.png)
+![i](./images/eval0.png)
 
 The upwards trend in this plot suggests a very slight positive correlation in our errors.  
 We can confirm by looking at the Durbin-Watson test statistic from our model.
@@ -126,11 +126,11 @@ However, since our test statistic is so close to 2.0, we can confidently say tha
 
 #### Normality
 
-![n](./images/eval03norm.png)
+![n](./images/eval03.png)
 
 Upon first glance at our histogram of residuals, our errors appear to be normally distributed.
 
-![n](./images/eval04norm.png)
+![n](./images/eval04.png)
 
 With normally distributed errors, our plot should follow the diagonal line closely.  
 Instead, we see some fairly significant divergences at the extremes. This suggests that our errors may not follow a normal distribution. That said, it is worth noting that divergences from the diagonal line are less extreme than the last time we tested our assumptions in our previous model.
@@ -143,7 +143,7 @@ Given more time, we may have to make individual histograms for each of our many 
 
 #### Homoscedasticity
 
-![h](images/eval05homosk.png)
+![h](images/eval05.png)
 
 At first glance, our errors appear to have similar variances. This is to say, the spread of our errors does not appear to vary much as our target increases. If anything, the spread may constrain slightly as our target increases, denoted by the larger presence of outliers around the smallest values of our target.
 
@@ -166,11 +166,11 @@ A possible solution would be to transform our target variable in some way, such 
 
 Before scaling:
 
-![beforescale](./images/eval06homosk.png)
+![beforescale](./images/eval06.png)
 
 After scaling:
 
-![afterscale](./images/eval07homosk.png)
+![afterscale](./images/eval07.png)
 
 
 #### Independence of Predictors (No Multicollinearity)
@@ -231,7 +231,7 @@ The data used for this analysis is current up to June 2022.  When additional hom
 
 ## For More Information   
 
-See the full analysis in the [Jupyter NotebookXXXXXXXX](./index.ipynb) or review this [presentation](./presentation.pdf).
+See the full analysis in the [Jupyter Notebook](./index.ipynb) or review this [presentation](./presentation.pdf).
 
 **For additional info, contact:**
 - Jonathan Fetterolf: jonathan.fetterolf@gmail.com
@@ -241,27 +241,30 @@ See the full analysis in the [Jupyter NotebookXXXXXXXX](./index.ipynb) or review
 ## Repository Structure     UPDATE BELOW FOR FINAL GIT FILES !!!!!!!!!!!!
 
 ```
-├── Scratch_Notebooks
-│   ├── matt-prelim.ipynb
-│   ├── nate-prelim.ipynb
-│   ├── joining-df.ipynb
-│   ├── jon-prelim.ipynb
-│   └── roshni-prelim.ipynb
+├── eda_notebooks
+│   ├── eda_clean_ilan.ipynb
+│   ├── eda_clean_ilan_assumptions.ipynb
+│   ├── eda_clean_jon.ipynb
+│   ├── eda_clean_vis_jon.ipynb
+│   └── eda_clear_jon_v4.ipynb
+│   └── eda_Nate_2.ipynb
+│   └── ilan.ipynb
+│   └── jon.ipynb
 ├── images
-│   ├── cinema.jpeg
-│   ├── director_shot.jpeg
-│   ├── figure1.png
-│   ├── figure2.png
-│   ├── figure3.png
-│   └── jheader.png
-├── zippedData
-│   ├── bom.movie_gross.csv.gz
-│   ├── im.db.zip
-│   ├── rt.movie_info.tsv.gz
-│   ├── rt.reviews.tsv.gz
-│   ├── tmdb.movies.csv.gz
-│   └── tn.movie_budgets.csv.gz
-├── Movie_industry_analysis_notebook.ipynb
+│   ├── header.jpeg
+│   ├── avg_price_garage.jpg
+│   ├── avg_price_patio.png
+│   ├── eval01.png
+│   ├── eval02.png
+│   └── eval03.png
+│   ├── eval04.png
+│   └── eval05.png
+│   ├── eval06.png
+│   └── eval07.png
+├── data
+│   ├── kc_house_data.csv
+│   ├── column_names.md
+├── index.ipynb
 ├── presentation.pdf
 └── README.md
 ```
