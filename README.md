@@ -3,7 +3,8 @@
 
 ![jonheaderdesign](./images/header.jpg)
 
-# King County Real Estate Modeling
+# Multiple Linear Regression Model
+## King County, WA
 
 **Authors**: [Jonathan Fetterolf](mailto:jonathan.fetterolf@gmail.com), [Ilan Haskel](mailto:ilanhaskel97@gmail.com), [Nate Kist](mailto:natekist@outlook.com)
 
@@ -13,7 +14,9 @@ We analyzed a database of home sales in King County, WA to determine how differe
 
 ## Business Understanding and Business Problem
 
-Our primary stakeholder is a company called Flipping Seattle, which flips houses in the King County area.  We are analyzing home sales to advise Flipping Seattle on:
+Seattle Flippers, asked us to predict the prices of homes in the market so they can make data driven decisions regarding potential houses to flip. Accurately modeling housing prices is incredibly important while flipping houses becuase the business is inherently risky and investors want to ensure a healthy return on investment. 
+
+Our goal is to advice Flipping Seattle on:
 
  1. What geographic areas should they look in to generate the most return on investment? 
  2. What renovations or additions can be made to their properties to generate more profit upon sale?
@@ -28,13 +31,13 @@ The [King County Department of Assessments](https://info.kingcounty.gov/assessor
 
 ## Methods:  Data Preparation and Modeling
 
-We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and removed records with null values.  We also scaled our numerical predictors.  
-
 We created helpful functions that could be reused throughout our code in order to avoid duplication, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
+
+We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and removed records with null values.  We also scaled our numerical predictors.  
 
 We utilized the CRISP-DM process for our project, which reprsents an iterative approach. Our workflow consisted of two rounds of modeling.  
 
-### Round one
+### Modeling - Round one
 
 We started our modeling by performing exploratory analysis with visualizations on potential features to utilize and performing some feature engineering.  Features engineered in round one included 'zipcode' (extracted from address) and 'age_when_sold' ('date' less 'yr_built').  
 
@@ -68,7 +71,7 @@ Ultimately, we find that dropping our insignificant features did not affect mode
 
 Our current model's condition number at this point was well above the generally accepted 'danger zone' of approximately 1000. We can gather from this that our predictors have a significant amount of correlation with one another, implying the presence of multicollinearity. Likely, this has to do with the large number of predictors used in our model. A logical improvement given more time is to try and cut down the number of predictor variables used and optimizing our model's R-squared score with its condition number.
 
-### Round two
+### Modeling - Round two
 
 #### New baseline model
 
@@ -185,7 +188,7 @@ Our initial goal was to tease out the features in our dataset that have the high
 
 **Cheapest Cities**
 
-Upon analysis of our predictor coefficients, we found that city where a house is located has a significant bearing on the price a house will sell for. Knowing that our clients will want to buy cheap in order to minimize property taxes before selling, we were able to ascertain which 5 cities had the highest impact on keeping house price low. In terms of our model, we found the 5 cities with the smallest relative coefficients, meaning that they increased price the *least*. 
+Upon analysis of our predictor coefficients, we found that city where a house is located has a significant bearing on the price a house will sell for. Buying lower priced homes will make return on investment on renovations higher.  We were able to ascertain which 5 cities had the highest impact on keeping house price low. In terms of our model, we found the 5 cities with the smallest relative coefficients, meaning that they increased price the *least*. 
 
 Try to buy in the following cities for lowest cost:
 1. Skyomish
@@ -204,25 +207,18 @@ Taking another look at our model summary, we decide to look at the coefficients 
 
 According to our model, we are 95% confident that adding a garage will increase value by between 38,000 dollars and 54,000 dollars so to have the highest likelihood of turning a profit, if you can add a garage for under 38,000 dollars, then we believe you should. 
 
-![garage](./images/avg_price_garage.jpg)
-
 **Patio**
 
 According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
 
-![patio](./images/avg_price_patio.jpg)
-
-
 ## For More Information   
 
-See the full analysis in the [Jupyter NotebookXXXXXXXX](./Movie_industry_analysis_notebook.ipynb) or review this [presentation](./presentation.pdf).
+See the full analysis in the [Jupyter NotebookXXXXXXXX](./index.ipynb) or review this [presentation](./presentation.pdf).
 
 **For additional info, contact:**
 - Jonathan Fetterolf: jonathan.fetterolf@gmail.com
 - Ilan Haskel: ilanhaskel97@gmail.com
 - Nate Kist: natekist@outlook.com
-
-![cinema](./images/cinema.jpg)
 
 ## Repository Structure     UPDATE BELOW FOR FINAL GIT FILES !!!!!!!!!!!!
 
