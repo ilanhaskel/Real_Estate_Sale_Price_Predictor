@@ -98,8 +98,11 @@ We then tried the second ordinal variable 'condition'.  This helped our R-square
 
 #### Adding more categorical variables
 
-We then used the remaining unused nominal categorical variables, adding 'greenbelt', 'nuisace', and 'has_view'.  This looked like the best result we had seen.  Our R-squared is the highest it's been throughout our new round of models while keeping a condition number well under 1000.
+We then used the remaining unused nominal categorical variables, adding 'greenbelt', 'nuisace', and 'has_view'.  This looked like the best result we had seen.  
 
+#### Modeling result
+
+Our R-squared is the highest it's been throughout our new round of models while keeping a condition number well under 1000.
 
 ## Evaluation / Results
 
