@@ -213,7 +213,7 @@ According to our model, we are 95% confident that adding a garage will increase 
 
 The average price of homes with patios are sold for higher than homes without patios. 
 
-![patios](./images/avg_price_patio.jpg)
+![patios](./images/avg_price_patio.png)
 
 According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
 
