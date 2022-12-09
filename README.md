@@ -1,7 +1,4 @@
-# Need to update file names and links after git clean up
-
-
-![jonheaderdesign](./images/header.jpg)
+![header](./images/header.jpg)
 
 # Multiple Linear Regression Model
 ## King County, WA
@@ -205,11 +202,32 @@ Taking another look at our model summary, we decide to look at the coefficients 
 
 **Garage**
 
+The average price of homes with garages are sold for higher than homes without garages. 
+
+![garages](./images/avg_price_garage.jpg)
+
+
 According to our model, we are 95% confident that adding a garage will increase value by between 38,000 dollars and 54,000 dollars so to have the highest likelihood of turning a profit, if you can add a garage for under 38,000 dollars, then we believe you should. 
 
 **Patio**
 
+The average price of homes with patios are sold for higher than homes without patios. 
+
+![patios](./images/avg_price_patio.jpg)
+
 According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
+
+## Next steps
+
+#### Contact contractors
+
+You will want to contact contractors to determine the cost of adding a garage and patio to different types of houses.  Work with the contractor to get your costs under the thresholds we laid out so that you can ensure the additions will ultimately result in more profit upon sale.
+
+#### Update the model
+
+The data used for this analysis is current up to June 2022.  When additional home sales data is made available by the county, contact us to update our analysis to see if these conclusions are still valid and to see if there are additional conclusions and recommendations that we can make to assist your business. 
+
+
 
 ## For More Information   
 
