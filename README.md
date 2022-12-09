@@ -26,30 +26,27 @@ Data for this analysis is from the following database:
 
 The [King County Department of Assessments](https://info.kingcounty.gov/assessor/DataDownload/default.aspx) makes available on its website a dataset representing recent home sales in the county. The initial dataset includes 30,155 home sale records representing sales between 6/10/21 and 6/9/22.  It had 25 columns of data. The column of primary interest is price, as that will be our target in our model.  Other data of interest includes characteristics of the homes sold such as square footage, condition, and the existence of features such as a basement, patio or garage.
 
-## Methods 
+## Methods:  Data Preparation and Modeling
 
-This project uses linear regression analysis to determine how our stakeholder can generate the most profit.  
+We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and filtered out records with null values.  We also scaled our numberical predictors.  
 
-### Data Preparation and Modeling
+We created helpful functions that could be reused throughout our code in order to avoid duplication, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
 
-We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and filtered out records with null values.  We also scaled our numberical predictors.  After dropping outliers and records with null values, we had 27,732 home sale records remaining from an intial dataset with 30,155 records (less than 10% dropped).  
-We created helpful functions that could be reused throughout our code in order to avoid duplication of code, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
+We utilized the CRISP-DM process for our project, which reprsents an iterative approach. Our workflow ended up consisting of two rounds of modeling.  
 
-We utilized the CRISP-DM process for our project. Our workflow ended up consisting of two rounds of modeling.  
-
-**Round one** 
+### Round one
 
 We started our modeling by performing exploratory analysis with visualizations on potential features to utilize and performing some feature engineering.  Features engineered in round one included 'zipcode' (extracted from address) and 'age_when_sold' ('date' less 'yr_built').  
 
-*Baseline*
+#### Baseline
 
 Our baseline has price as the target and 'sqft_living', 'sqft_lot', and 'sqft_patio' as predictors.  We recieved an r-squared of .303.  We then plotted the target (price) to view its distribution and we noticed it was slightly right-skewed.  We tried log-scaling price.  We noticed it was even more skewed (now on the left).  When we created a model with the log-scaled price as the target, the r-squared was worse.  As such, we did not use the log-scaled price in any of the rest of our analysis. 
 
-*Adding numerical predictors*
+#### Adding numerical predictors
 
 From there, we started trying different combinations of numerical predictors such as square foot lot, square foot patio, and age when sold.  Our r-squared slightly improved (.312) but was still not where we wanted it.  Also, our other summary statistics were getting worse (e.g. Jarque-Bera and condition number).  
 
-*Adding ordinal categorical predictors*
+#### Adding ordinal categorical predictors
 
 We moved forward with additional nomimal categorical features to see if that would help our model.  We used One Hot Encoder to try differet combinations of categorical features including bathrooms, bedrooms, condition, and heat_source.  
 
@@ -57,32 +54,35 @@ This new model had a slightly higher R-squared score than our previous iteration
 
 It is at this point that we see our R-squared score make a huge jump: our model goes from accounting for only 30% of the variance in our target, to just under 70%. We can conclude that the addition of our new categorical variables is responsible for this improvement.
 
-*Adding ordinal categorical predictors*
+#### Adding ordinal categorical predictors
 
 It is at this point that we realize that grade, one of the categorical variables incorporated in our current model, should not have been one-hot encoded. Instead, as an ordinal categorical variable, we need to use ordinal encoding to maintain the natural rank order in grade values.  Similarly, condition is a categorical feature being used in our model that should have been ordinally encoded as well. We proceed with re-encoding condition.
 
-*Drop statistically insignificant values and run new model*
+####  Drop statistically insignificant values and run new model
 
 Analyzing the p-values corresponding with our model predictors, we notice that some of them are above an alpha of 0.05, suggesting that the perceived relationships these features have with our target are not statistically significant. We proceed by dropping these specific predictors from our model and recreating it.
 
 Ultimately, we find that dropping our insignificant features did not affect model performance very much, nor did it improve our summary statistics pertaining to assumption problems.
 
-*Modeling result*
+#### Modeling result
 
 Our current model's condition number at this point was well above the generally accepted 'danger zone' of approximately 1000. We can gather from this that our predictors have a significant amount of correlation with one another, implying the presence of multicollinearity. Likely, this has to do with the large number of predictors used in our model. A logical improvement given more time is to try and cut down the number of predictor variables used and optimizing our model's R-squared score with its condition number.
 
-**Round two**
-With this prior model for reference, we decided to start over with a new baseline model and create some additional features to use.
+### Round two
+
+#### New baseline model
+
+With this prior model for reference, we decided to start over with a new baseline model and create some additional features to use.  Our new baseline model consisted only of one target, price, and one variable, sqft_living. 
 
 New features created in round two included:  'sqft_lot_less_living' ('sqft_lot' less ('sqft_living' / 'floors'), 'has_garage', 'has_patio', 'has_basement', 'has_view', and 'city'.  These features were derived from the values of other features.  For example, if 'square foot garage' was not zero, we concluded that a property had a garage. If it was zero, we concluded it did not have a garage.  We did the same for patio and basement.  If 'view' was not 'NONE', we concluded that the property had a view.  If it was NONE, we concluded it did not.  We extracted city from the address column.   
 
 We paid particular attention to our summary statistics as we went along in round two to make sure we weren't hurting the model as we added features.   
 
-*Adding numerical predictors*
+#### Adding numerical predictors
 
 We added 'sqft_lot_less_living' to our former numerical predictors 'sqft_living' and 'age_when_sold'.  This helped our summary statistics a little, but the R-squared was still only .309.  
 
-*Adding numerical categorical predictors*
+#### Adding numerical categorical predictors
 
 Next, we took a different approach than the prior round on trying to use location data.  Zipcode was the feature that helped our R-squared the most in the prior round, but it hurt our summary statistics.  We wanted to see if different location data would be better.  We created a new feature for 'city' that we derived from the 'address' feature and we added that to the model.  
 
@@ -90,20 +90,20 @@ This worked out very well. It bumped up our R-Squared from .309 to .607, while k
 
 We then layered in 'waterfront', 'has_basement', 'has_garage', and 'has_patio'. We saw slight improvements of R-squared to .613, with minimal changes to summary statistics. So far, we have vastly improved our summary statistics from round one while achieving a similar R-Squared.   
 
-*Adding ordinal categorical predictors*
+#### Adding ordinal categorical predictors
 
 We then tried adding our first ordinal variable 'grade'.  This improved our R-Squared but hurt our JB score.  We concluded that we would not use this variable. 
 
 We then tried the second ordinal variable 'condition'.  This helped our R-squared number, but it hurt our condition no.  We also decided not to use 'condition'.  
 
-*Adding more categorical variables*
+#### Adding more categorical variables
 
 We then used the remaining unused nominal categorical variables, adding 'greenbelt', 'nuisace', and 'has_view'.  This looked like the best result we had seen.  Our R-squared is the highest it's been throughout our new round of models while keeping a condition number well under 1000.
 
 
 ## Evaluation / Results
 
-### Evaluation - Checking Model Assumptions
+### Checking Model Assumptions
 
 #### Linearity
 
@@ -126,11 +126,11 @@ However, since our test statistic is so close to 2.0, we can confidently say tha
 
 #### Normality
 
-![n](./images/eval03homosk.png)
+![n](./images/eval03norm.png)
 
 Upon first glance at our histogram of residuals, our errors appear to be normally distributed.
 
-![n](./images/eval04homosk.png)
+![n](./images/eval04norm.png)
 
 With normally distributed errors, our plot should follow the diagonal line closely.  
 Instead, we see some fairly significant divergences at the extremes. This suggests that our errors may not follow a normal distribution. That said, it is worth noting that divergences from the diagonal line are less extreme than the last time we tested our assumptions in our previous model.
@@ -179,7 +179,7 @@ Condition_number: 269.39234338796416
 
 Here we see a significant improvement over the previous iteration of our model, starting from the old baseline. Our current model's condition number is well below the generally-accepted 'danger zone' of 1000, suggesting that we eliminated any issues with multicollinearity in our model and that our predictors are sufficiently independent from one another.
 
-### Answering Business Question / Results
+### Answering Business Question
 
 Our initial goal was to tease out the features in our dataset that have the highest bearing on price, so as to provide our house-flipping clients information on how to turn the most profit.
 
