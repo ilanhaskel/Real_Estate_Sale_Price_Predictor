@@ -28,7 +28,7 @@ The [King County Department of Assessments](https://info.kingcounty.gov/assessor
 
 ## Methods:  Data Preparation and Modeling
 
-We created helpful functions that could be reused throughout our code in order to avoid duplication, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
+We created helpful functions that could be reused throughout our code in order to avoid duplication, including drop_outliers(), scale_numerical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
 
 We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and removed records with null values.  We also scaled our numerical predictors.  
 
