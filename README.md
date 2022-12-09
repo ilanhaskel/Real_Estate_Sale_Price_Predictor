@@ -109,13 +109,13 @@ We then used the remaining unused nominal categorical variables, adding 'greenbe
 
 #### Linearity
 
-(pic)
+![patio](./images/eval01Lin.jpg)
 
 From our plot, we can gather that the relationship between our target and our predictors is linear.
 
 #### Independence
 
-(pic)
+![patio](./images/eval02ind.jpg)
 
 The upwards trend in this plot suggests a very slight positive correlation in our errors.  
 We can confirm by looking at the Durbin-Watson test statistic from our model.
@@ -128,9 +128,11 @@ However, since our test statistic is so close to 2.0, we can confidently say tha
 
 #### Normality
 
-(pic)
+![patio](./images/eval03homosk.jpg)
 
 Upon first glance at our histogram of residuals, our errors appear to be normally distributed.
+
+![patio](./images/eval04homosk.jpg)
 
 With normally distributed errors, our plot should follow the diagonal line closely.  
 Instead, we see some fairly significant divergences at the extremes. This suggests that our errors may not follow a normal distribution. That said, it is worth noting that divergences from the diagonal line are less extreme than the last time we tested our assumptions in our previous model.
@@ -143,15 +145,17 @@ Given more time, we may have to make individual histograms for each of our many 
 
 #### Homoscedasticity
 
-(pic)
+![patio](././images/eval05homosk.jpg)
 
 At first glance, our errors appear to have similar variances. This is to say, the spread of our errors does not appear to vary much as our target increases. If anything, the spread may constrain slightly as our target increases, denoted by the larger presence of outliers around the smallest values of our target.
 
 For a more quantitative assessment of homoscedasticity, we employ the Goldfeld-Quant test.  
 Result:  (0.9874786620366286, 0.7351101602688859, 'increasing')
+
 The Goldfeld-Quant test has a null hypothesis that homoscedasticity is present in our errors. Since the p-value for our test is greater than an alpha of 0.05, we fail to reject the null hypothesis and cannot gather that heteroscedasticity is a problem with our model.
 
 Turning to the Breusch-Pagan test for a second opinion on whether our data is homoscedastic:
+
 Result:  
          Lagrange multiplier statistic', 2279.3581669918062
          p-value', 0.0
@@ -160,7 +164,14 @@ Result:
 
 Since our p-value is smaller than our alpha of 0.05 and our test statistic is quite high for our number of predictors, we must reject the null hypothesis and conclude that there is some evidence to suggest that our errors are heteroscedastic. 
 
-A possible solution would be to try transforming our target variable in some other way to make it more closely follow a normal distribution. Due to time constraints, this will not be possible in the present study.
+A possible solution would be to transform our target variable in some way, such as log-scaling. However, as seen below, log-scaling our target variable makes its distribution less normal than it is currently.
+
+Before scaling:
+![patio](./images/./images/eval06homosk.jpg)
+
+After scaling:
+![patio](./images/eval07homosk.jpg)
+
 
 #### Independence of Predictors (No Multicollinearity)
 
@@ -199,7 +210,7 @@ According to our model, we are 95% confident that adding a garage will increase 
 
 According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
 
-![garage](./images/avg_price_patio.jpg)
+![patio](./images/avg_price_patio.jpg)
 
 
 ## For More Information   
