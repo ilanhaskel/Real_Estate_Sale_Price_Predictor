@@ -219,7 +219,7 @@ See the full analysis in the [Jupyter NotebookXXXXXXXX](./Movie_industry_analysi
 
 **For additional info, contact:**
 - Jonathan Fetterolf: jonathan.fetterolf@gmail.com
-- Ilan Haskel: XXXXXXXXXXX
+- Ilan Haskel: ilanhaskel97@gmail.com
 - Nate Kist: natekist@outlook.com
 
 ![cinema](./images/cinema.jpg)
