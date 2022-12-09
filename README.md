@@ -5,7 +5,7 @@
 
 # King County Real Estate Modeling
 
-**Authors**: [Jonathan Fetterolf](mailto:jonathan.fetterolf@gmail.com), [Ilan Haskel NEED EMAIL](mailto:XXXXXXXXXXXXXX), [Nate Kist](mailto:natekist@outlook.com)
+**Authors**: [Jonathan Fetterolf](mailto:jonathan.fetterolf@gmail.com), [Ilan Haskel](mailto:ilanhaskel97@gmail.com), [Nate Kist](mailto:natekist@outlook.com)
 
 ## Overview
 
@@ -24,15 +24,15 @@ Data for this analysis is from the following database:
 
 ### King County Real Property Sales
 
-The [King County Department of Assessments](https://info.kingcounty.gov/assessor/DataDownload/default.aspx) makes available on its website a dataset representing recent home sales in the county. The initial dataset includes 30,155 home sale records representing sales between 6/10/21 and 6/9/22.  It had 25 columns of data. The column of primary interest is price, as that will be our target in our model.  Other data of interest includes characteristics of the homes sold such as square footage, condition, and the existence of features such as a basement, patio or garage.
+The [King County Department of Assessments](https://info.kingcounty.gov/assessor/DataDownload/default.aspx) makes a dataset of recent home sales in the county available on their website . The initial dataset includes 30,155 home sale records representing sales between 6/10/21 and 6/9/22.  It has 25 columns of data. The column of primary interest in our modeling is price, as that will be used as the target in our model.  Other data of interest includes characteristics of the homes sold such as square footage, condition, and the existence of features such as a basement, patio or garage.
 
 ## Methods:  Data Preparation and Modeling
 
-We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and filtered out records with null values.  We also scaled our numberical predictors.  
+We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and removed records with null values.  We also scaled our numerical predictors.  
 
 We created helpful functions that could be reused throughout our code in order to avoid duplication, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
 
-We utilized the CRISP-DM process for our project, which reprsents an iterative approach. Our workflow ended up consisting of two rounds of modeling.  
+We utilized the CRISP-DM process for our project, which reprsents an iterative approach. Our workflow consisted of two rounds of modeling.  
 
 ### Round one
 
@@ -40,11 +40,11 @@ We started our modeling by performing exploratory analysis with visualizations o
 
 #### Baseline
 
-Our baseline has price as the target and 'sqft_living', 'sqft_lot', and 'sqft_patio' as predictors.  We recieved an r-squared of .303.  We then plotted the target (price) to view its distribution and we noticed it was slightly right-skewed.  We tried log-scaling price.  We noticed it was even more skewed (now on the left).  When we created a model with the log-scaled price as the target, the r-squared was worse.  As such, we did not use the log-scaled price in any of the rest of our analysis. 
+Our baseline has price as the target and 'sqft_living', 'sqft_lot', and 'sqft_patio' as predictors.  We recieved an r-squared of .303.  We then plotted the target (price) to view its distribution and we noticed it was slightly right-skewed.  We tried log-scaling price.  We noticed it was even more skewed (now on the left).  When we created a model with the log-scaled price as the target, the r-squared was worse.  As such, we did not use the log-scaled price in the rest of our analysis. 
 
 #### Adding numerical predictors
 
-From there, we started trying different combinations of numerical predictors such as square foot lot, square foot patio, and age when sold.  Our r-squared slightly improved (.312) but was still not where we wanted it.  Also, our other summary statistics were getting worse (e.g. Jarque-Bera and condition number).  
+From there, we started trying different combinations of numerical predictors such as square foot lot, square foot patio, and age when sold.  Our r-squared slightly improved (.312) but was still not where we wanted it.  Also, other summary statistics were getting worse (e.g. Jarque-Bera and condition number).  
 
 #### Adding ordinal categorical predictors
 
