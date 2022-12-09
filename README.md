@@ -191,7 +191,7 @@ Our initial goal was to tease out the features in our dataset that have the high
 Upon analysis of our predictor coefficients, we found that city where a house is located has a significant bearing on the price a house will sell for. Buying lower priced homes will make return on investment on renovations higher.  We were able to ascertain which 5 cities had the highest impact on keeping house price low. In terms of our model, we found the 5 cities with the smallest relative coefficients, meaning that they increased price the *least*. 
 
 Try to buy in the following cities for lowest cost:
-1. Skyomish
+1. Skykomish
 2. Algona
 3. Federal Way
 4. Enumclaw
@@ -210,7 +210,7 @@ The average price of homes with garages are sold for higher than homes without g
 ![garages](./images/avg_price_garage.jpg)
 
 
-According to our model, we are 95% confident that adding a garage will increase value by between 38,000 dollars and 54,000 dollars so to have the highest likelihood of turning a profit, if you can add a garage for under 38,000 dollars, then we believe you should. 
+According to our model, we are 95% confident that adding a garage will increase value by between 38,000 dollars and 54,000 dollars so to have the highest likelihood of turning a profit, if you can add a garage for under 38,000 dollars, then we believe you should. We arrive at this conclusion by interpreting our model coefficient for garage and its 95% confidence interval. These can be found in the above model summary. The coefficient for garage is approximately 46,000, which we can interpret from our model to mean that the inclusion of a garage will increase a house's price by an average of $46,000. Also listed on the model summary are the bounds for our 95% confidence interval. Since the lower bound is approximately 38,000, and the upper bound is approximately 54,000, we can gather with 95% confidence that the inclusion of a garage will increase a house's price by between $38,000 and $54,000.
 
 **Patio**
 
@@ -218,7 +218,7 @@ The average price of homes with patios are sold for higher than homes without pa
 
 ![patios](./images/avg_price_patio.png)
 
-According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
+According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should. We arrive at this conclusion by interpreting our model coefficient for patio and its 95% confidence interval. These can be found in the above model summary. The coefficient for patio is approximately 25,000, which we can interpret from our model to mean that the inclusion of a patio will increase a house's price by an average of $25,000. Also listed on the model summary are the bounds for our 95% confidence interval. Since the lower bound is approximately 18,000, and the upper bound is approximately 33,000, we can gather with 95% confidence that the inclusion of a patio will increase a house's price by between $18,000 and $33,000.
 
 ## Next steps
 
@@ -241,7 +241,7 @@ See the full analysis in the [Jupyter Notebook](./index.ipynb) or review this [p
 - Ilan Haskel: ilanhaskel97@gmail.com
 - Nate Kist: natekist@outlook.com
 
-## Repository Structure     UPDATE BELOW FOR FINAL GIT FILES !!!!!!!!!!!!
+## Repository Structure
 
 ```
 ├── eda_notebooks
