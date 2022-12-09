@@ -1,4 +1,7 @@
-![jonheaderdesign](./images/jheader.png)
+# Need to update file names and links after git clean up
+
+
+![jonheaderdesign](./images/header.jpg)
 
 # King County Real Estate Modeling
 
@@ -180,7 +183,7 @@ Try to buy in the following cities for lowest cost:
 4. Enumclaw
 5. Auburn
 
-(pic)
+![cities](./images/lowest_avg_prices_by_municipality.jpg)
 
 From our bar graph, we can see that all 5 of these cities have an average house price around or significantly under 600,000 dollars. Comparing this to the mean house price for all cities of over 900,000 dollars, we can see how much cheaper buying a house in any one of these cities would be relative to the mean.
 
@@ -190,17 +193,18 @@ Taking another look at our model summary, we decide to look at the coefficients 
 
 According to our model, we are 95% confident that adding a garage will increase value by between 38,000 dollars and 54,000 dollars so to have the highest likelihood of turning a profit, if you can add a garage for under 38,000 dollars, then we believe you should. 
 
-**Patio (x4)**
+![garage](./images/avg_price_garage.jpg)
+
+**Patio**
 
 According to our model, we are 95% confident that adding a patio will increase value by between approximately 18,000 dollars and 33,000 dollars, so to have the highest likelihood of turning a profit, if you can add a patio for under 18,000 dollars, then we believe you should.
 
+![garage](./images/avg_price_patio.jpg)
 
 
- 
+## For More Information   
 
-## For More Information
-
-See the full analysis in the [Jupyter Notebook](./Movie_industry_analysis_notebook.ipynb) or review this [presentation](./presentation.pdf).
+See the full analysis in the [Jupyter NotebookXXXXXXXX](./Movie_industry_analysis_notebook.ipynb) or review this [presentation](./presentation.pdf).
 
 **For additional info, contact:**
 - Jonathan Fetterolf: jonathan.fetterolf@gmail.com
