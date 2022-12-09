@@ -11,8 +11,6 @@
 
 We analyzed a database of home sales in King County, WA to determine how different housing features impact sales price.  Regression analysis of these sales show potential opportunities for real estate flipping companies to earn more profit by buying in certain areas and adding features to a home that ultimately drive up the resale price more than the cost of the addition.  The analysis determined that buying properties in Skykomish, Algona, Federal Way, Enumclaw, and Auburn would likely result in more return on their investment and that adding a garage for under $38K or adding a patio for under $18K would likely result in higher profit. 
 
-![action](./images/director_shot.jpeg)
-
 ## Business Understanding and Business Problem
 
 Our primary stakeholder is a company called Flipping Seattle, which flips houses in the King County area.  We are analyzing home sales to advise Flipping Seattle on:
@@ -37,7 +35,7 @@ This project uses linear regression analysis to determine how our stakeholder ca
 We removed unnecessary columns of data that were not used in our analysis, dropped outliers over/under the 1.5x IQR threshold on numerical predictors, and filtered out records with null values.  We also scaled our numberical predictors.  After dropping outliers and records with null values, we had 27,732 home sale records remaining from an intial dataset with 30,155 records (less than 10% dropped).  
 We created helpful functions that could be reused throughout our code in order to avoid duplication of code, including drop_outliers(), scale_numberical_cols(), mapping_addressStreet(), mapping_AddressCity(), mapping_is_good_city(), mapping_is_cheap_city(), mapping_hasX(), and mapping_hasView(). 
 
-We utilized the CRISP-DM process for our modeling.  Our workflow ended up consisting of two rounds of modeling.  
+We utilized the CRISP-DM process for our project. Our workflow ended up consisting of two rounds of modeling.  
 
 **Round one** 
 
@@ -109,13 +107,13 @@ We then used the remaining unused nominal categorical variables, adding 'greenbe
 
 #### Linearity
 
-![patio](./images/eval01Lin.jpg)
+![l](./images/eval01Lin.png)
 
 From our plot, we can gather that the relationship between our target and our predictors is linear.
 
 #### Independence
 
-![patio](./images/eval02ind.jpg)
+![i](./images/eval02ind.png)
 
 The upwards trend in this plot suggests a very slight positive correlation in our errors.  
 We can confirm by looking at the Durbin-Watson test statistic from our model.
@@ -128,11 +126,11 @@ However, since our test statistic is so close to 2.0, we can confidently say tha
 
 #### Normality
 
-![patio](./images/eval03homosk.jpg)
+![n](./images/eval03homosk.png)
 
 Upon first glance at our histogram of residuals, our errors appear to be normally distributed.
 
-![patio](./images/eval04homosk.jpg)
+![n](./images/eval04homosk.png)
 
 With normally distributed errors, our plot should follow the diagonal line closely.  
 Instead, we see some fairly significant divergences at the extremes. This suggests that our errors may not follow a normal distribution. That said, it is worth noting that divergences from the diagonal line are less extreme than the last time we tested our assumptions in our previous model.
@@ -145,7 +143,7 @@ Given more time, we may have to make individual histograms for each of our many 
 
 #### Homoscedasticity
 
-![patio](././images/eval05homosk.jpg)
+![h](images/eval05homosk.png)
 
 At first glance, our errors appear to have similar variances. This is to say, the spread of our errors does not appear to vary much as our target increases. If anything, the spread may constrain slightly as our target increases, denoted by the larger presence of outliers around the smallest values of our target.
 
@@ -167,10 +165,12 @@ Since our p-value is smaller than our alpha of 0.05 and our test statistic is qu
 A possible solution would be to transform our target variable in some way, such as log-scaling. However, as seen below, log-scaling our target variable makes its distribution less normal than it is currently.
 
 Before scaling:
-![patio](./images/./images/eval06homosk.jpg)
+
+![beforescale](./images/eval06homosk.png)
 
 After scaling:
-![patio](./images/eval07homosk.jpg)
+
+![afterscale](./images/eval07homosk.png)
 
 
 #### Independence of Predictors (No Multicollinearity)
